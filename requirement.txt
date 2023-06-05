@@ -29,8 +29,6 @@ Flask-WTF==0.15.1
 fonttools==4.33.3
 future==0.18.2
 gensim==4.0.1
-gevent==20.9.0
-gevent-websocket==0.10.1
 googletrans==4.0.0rc1
 greenlet==0.4.17
 h11==0.9.0
