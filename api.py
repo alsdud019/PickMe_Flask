@@ -7,33 +7,23 @@ from io import BytesIO
 
 app = Flask(__name__)
 
-@app.route('/')
-def index():
-    return '''
-    <h1>이미지 업로드</h1>
-    <p>사진을 골라주세요</p>
-    <form method="POST" action="/UNITE" enctype="multipart/form-data" accept-charset="cp949">
-        <input type="file" name="file">
-        <input type="submit" value="업로드">
-    </form>
-    <br>
-    '''
+
+@app.route('/img2',methods=['POST'])
+def img_post_test():
+   print(request.files)
+   image=request.files['image']
+   print(image)
+   return jsonify({'result':"image get!"})
 
 
-@app.route('/UNITE', methods=['POST'])
+@app.route('/imgTest', methods=['POST'])
 def detect_text():
-    if 'file' not in request.files:
+    if 'image' not in request.files:
         return jsonify({'error': 'No file uploaded'})
-    img_receive = request.files['file']
+    img_receive = request.files['image']
     img_byte = img_receive.read()
     im = Image.open(BytesIO(img_byte))
     
-    
-    # 파일 저장
-    """
-    upload_path = 'C:/Users/Owner/Desktop/capstone/CRAFT/CRAFT-pytorch/test/'
-    img_receive.save(os.path.join(upload_path, img_receive.filename))
-    """
     
     im.save('./static/test.jpg',im.format)
     
@@ -48,13 +38,17 @@ def detect_text():
     # 결과 파일 읽기
     
     with open(os.path.join(recognition_path + '/result/', 'recog_result.txt'), 'r') as f:
-        result = f.readlines()
+        result = f.read()
+        word_list = result.split(',')
         
+    print(word_list)
+    print(word_list[0])  
+    
     return jsonify(
        {
-          "all_ingredient_name": ["에탄올", "메틸파라벤", "구아닌", "벤조페논-3"]
+          "all_ingredient_name": [word_list]
        })
 
 
 if __name__ == '__main__':
-    app.run(port = 8080)
+    app.run('0.0.0.0',port=8080,debug=False)
