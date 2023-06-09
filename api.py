@@ -34,16 +34,51 @@ def detect_text():
     
     with open(os.path.join(recognition_path + '/result/', 'recog_result.txt'), 'r') as f:
         result = f.read()
-        word_list = result.split(',')
-        
-    print(word_list)
-    print(word_list[0])  
+        word_list = list(result.split(','))
+
+    word = re.sub("(,|/| |\(|\)|-|&)", "", word_list[0])
+    if word.encode().isalnum() == True:  # 영어인경우
+        english = "./csv/english.csv"
+        candidates = loadCanditate(english)
+        print("Correcting english words...")
+        renew_total = correctWord(word_list, candidates)
+        toggle = "english"
+    else:  # 한글인경우
+        korean = "./csv/korean.csv"
+        candidates = loadCanditate(korean)
+        print("Correcting korean words...")
+        renew_total = correctWord(word_list, candidates)
+        toggle = "korean"
+    # print(word_list)
+    # print(word_list[0])
     
     return jsonify(
        {
-          "all_ingredient_name": [word_list]
+          "all_ingredient_name":renew_total,
+           "language": toggle
        })
 
+def loadCanditate(file_path):
+   f=open(file_path,'r',encoding='utf-8-sig')
+   rea = csv.reader(f)
+   for row in rea:
+      candidates.append(*row)
+   return candidates
+
+
+def correctWord(result,candidates):
+   total=[]
+   for word in result:
+      if len(word)<=2 and word not in total: # 글자수가 2 이하인경우 그대로 저장
+         total.append(word)
+         continue
+      else:
+         close_matches = get_close_matches(word, candidates, n, cutoff)
+         if len(close_matches) == 0: # 교정된 단어가 없는경우
+            continue
+         elif word not in total: #중복 결과 제거
+            total.append(*close_matches)
+   return total
 
 if __name__ == '__main__':
-    app.run('0.0.0.0',port=8080,debug=False)
+    app.run('0.0.0.0',port=5000,debug=True)
