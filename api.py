@@ -1,20 +1,16 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 import subprocess
-import os
+import os,csv,re
 
 from PIL import Image
 from io import BytesIO
+from difflib import get_close_matches
 
 app = Flask(__name__)
 
-
-@app.route('/img2',methods=['POST'])
-def img_post_test():
-   print(request.files)
-   image=request.files['image']
-   print(image)
-   return jsonify({'result':"image get!"})
-
+candidates=[] #단어 교정시 후보군
+n=1 #최상위 표출 개수
+cutoff = 0.5 #임계값
 
 @app.route('/imgTest', methods=['POST'])
 def detect_text():
@@ -23,8 +19,7 @@ def detect_text():
     img_receive = request.files['image']
     img_byte = img_receive.read()
     im = Image.open(BytesIO(img_byte))
-    
-    
+
     im.save('./static/test.jpg',im.format)
     
     # CRAFT 실행
