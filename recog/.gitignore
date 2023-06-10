@@ -1,7 +1,6 @@
 **/data_lmdb_release/*
 **/image_release/*
 *.mdb
-*.pth
 *.tar
 *.sh
 *.zip
