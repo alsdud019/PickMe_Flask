@@ -23,7 +23,7 @@ def detect_text():
     im.save('./static/test.jpg',im.format)
     
     # CRAFT 실행
-    craft_path = r'./detect'
+    craft_path = r'./detection'
     subprocess.run(['python', os.path.join(craft_path, 'test.py')])
 
     # Recognition 실행
@@ -32,7 +32,7 @@ def detect_text():
 
     # 결과 파일 읽기
     
-    with open(os.path.join(recognition_path + '/result/', 'recog_result.txt'), 'r') as f:
+    with open(os.path.join(recognition_path + '/result/', 'recog_result.txt', encoding= 'utf-8'), 'r') as f:
         result = f.read()
         word_list = list(result.split(','))
 
