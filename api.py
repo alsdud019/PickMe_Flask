@@ -76,7 +76,7 @@ def correctWord(result,candidates):
          close_matches = get_close_matches(word, candidates, n, cutoff)
          if len(close_matches) == 0: # 교정된 단어가 없는경우
             continue
-         elif word not in total: #중복 결과 제거
+         elif close_matches not in total: #중복 결과 제거
             total.append(*close_matches)
    return total
 
