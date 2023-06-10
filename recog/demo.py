@@ -18,8 +18,8 @@ from model import Model
 
 #os.system("cd C:/Users/Owner/Desktop/capstone/CRAFT/CRAFT-pytorch && python test.py")
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
+#device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device('cpu')
 def demo(opt):
     """ model configuration """
     if 'CTC' in opt.Prediction:

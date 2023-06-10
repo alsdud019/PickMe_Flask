@@ -68,6 +68,7 @@ if not os.path.isdir(result_folder):
     os.mkdir(result_folder)
 
 def test_net(net, image, text_threshold, link_threshold, low_text, cuda, poly, refine_net=None):
+    cuda = False
     t0 = time.time()
 
     # resize
@@ -159,6 +160,7 @@ if __name__ == '__main__':
         args.poly = True
 
     t = time.time()
+
 
     # load data
     for k, image_path in enumerate(image_list):
