@@ -38,7 +38,7 @@ def demo(opt):
 
     # load model
     print('loading pretrained model from %s' % opt.saved_model)
-    model.load_state_dict(torch.load(opt.saved_model, map_location=device))
+    model.load_state_dict(torch.load(opt.saved_model, map_location=torch.device('cpu')))
     #saved_checkpoint = torch.load(opt.saved_model)
     #model.load_state_dict(saved_checkpoint, strict=False)
 
