@@ -69,16 +69,15 @@ def loadCanditate(file_path):
 def correctWord(result,candidates):
    total=[]
    for word in result:
-      if len(word)<=2 and word not in total: # 글자수가 2 이하인경우 그대로 저장
+      if len(word)<=2: # 글자수가 2 이하인경우 그대로 저장
          total.append(word)
-         continue
       else:
          close_matches = get_close_matches(word, candidates, n, cutoff)
          if len(close_matches) == 0: # 교정된 단어가 없는경우
             continue
-         elif close_matches not in total: #중복 결과 제거
-            total.append(*close_matches)
-   return total
+         else:
+             total.append(close_matches[0])
+   return list(set(total))
 
 if __name__ == '__main__':
     app.run('0.0.0.0',port=5000,debug=True)
