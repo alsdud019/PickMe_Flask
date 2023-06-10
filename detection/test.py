@@ -148,7 +148,7 @@ if __name__ == '__main__':
             refine_net = refine_net.cuda()
             refine_net = torch.nn.DataParallel(refine_net)
         else:
-            refine_net.load_state_dict(copyStateDict(torch.load(args.refiner_model, map_location='cpu')))
+            refine_net.load_state_dict(copyStateDict(torch.load(args.refiner_model, map_location=torch.device('cpu'))))
 
         refine_net.eval()
         args.poly = True
