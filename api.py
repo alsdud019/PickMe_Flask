@@ -32,7 +32,7 @@ def detect_text():
 
     # 결과 파일 읽기
     
-    with open(os.path.join(recognition_path + '/result/', 'recog_result.txt', encoding= 'utf-8'), 'r') as f:
+    with open(os.path.join(recognition_path + '/result/', 'recog_result.txt'), 'r', encoding= 'utf-8') as f:
         result = f.read()
         word_list = list(result.split(','))
 
