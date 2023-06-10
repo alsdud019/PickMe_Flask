@@ -128,7 +128,7 @@ if __name__ == '__main__':
     if args.cuda:
         net.load_state_dict(copyStateDict(torch.load(args.trained_model)))
     else:
-        net.load_state_dict(copyStateDict(torch.load(args.trained_model, map_location='cpu')))
+        net.load_state_dict(copyStateDict(torch.load(args.trained_model, map_location=torch.device('cpu'))))
 
     if args.cuda:
         net = net.cuda()
