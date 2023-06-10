@@ -5,7 +5,7 @@ import torch
 import torch.backends.cudnn as cudnn
 import torch.utils.data
 import torch.nn.functional as F
-
+import glob
 import os
 
 from utils import CTCLabelConverter, AttnLabelConverter
@@ -110,7 +110,7 @@ if __name__ == '__main__':
     parser.add_argument('--image_folder', default ='./recog/demo_korean/9th/pre', help='path to image_folder which contains text images')
     parser.add_argument('--workers', type=int, help='number of data loading workers', default=0)
     parser.add_argument('--batch_size', type=int, default=192, help='input batch size')
-    parser.add_argument('--saved_model', default ='./recog/saved_models/0017.pth', help="path to saved_model to evaluation")
+    parser.add_argument('--saved_model', default ='./recog/saved_models/0019.pth', help="path to saved_model to evaluation")
     """ Data processing """
     parser.add_argument('--batch_max_length', type=int, default=25, help='maximum-label-length')
     parser.add_argument('--imgH', type=int, default=32, help='the height of the input image')
@@ -142,3 +142,8 @@ if __name__ == '__main__':
     opt.num_gpu = torch.cuda.device_count()
 
     demo(opt)
+
+dir = './recog/demo_korean/9th/pre'
+filelist = glob.glob(os.path.join(dir,"*"))
+for f in filelist:
+    os.remove(f)
