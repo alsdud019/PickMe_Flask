@@ -125,16 +125,19 @@ if __name__ == '__main__':
     net = CRAFT()     # initialize
 
     print('Loading weights from checkpoint (' + args.trained_model + ')')
+    """
     if args.cuda:
         net.load_state_dict(copyStateDict(torch.load(args.trained_model)))
     else:
-        net.load_state_dict(copyStateDict(torch.load(args.trained_model, map_location=torch.device('cpu'))))
+        """
+    net.load_state_dict(copyStateDict(torch.load(args.trained_model, map_location=torch.device('cpu'))))
 
+    """
     if args.cuda:
         net = net.cuda()
         net = torch.nn.DataParallel(net)
         cudnn.benchmark = False
-
+    """
     net.eval()
 
     # LinkRefiner
@@ -143,12 +146,14 @@ if __name__ == '__main__':
         from refinenet import RefineNet
         refine_net = RefineNet()
         print('Loading weights of refiner from checkpoint (' + args.refiner_model + ')')
+        """
         if args.cuda:
             refine_net.load_state_dict(copyStateDict(torch.load(args.refiner_model)))
             refine_net = refine_net.cuda()
             refine_net = torch.nn.DataParallel(refine_net)
-        else:
-            refine_net.load_state_dict(copyStateDict(torch.load(args.refiner_model, map_location=torch.device('cpu'))))
+        """
+        #else:
+        refine_net.load_state_dict(copyStateDict(torch.load(args.refiner_model, map_location=torch.device('cpu'))))
 
         refine_net.eval()
         args.poly = True
